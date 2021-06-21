@@ -12,8 +12,8 @@ router.get('/', async (req, res) => {
     const authors = await Author.find(searchOptions)
     res.render('authors/index', { authors: authors, searchOptions: req.query })
   }
-  catch {
-    res.render('/', {errorMessage: "Error rendering page."})
+  catch (error) {
+    res.render('/', {errorMessage: error})
   }
 })
 
@@ -31,10 +31,10 @@ router.post('/', async (req, res) => {
     const newAuthor = await author.save()
     res.redirect('/authors')
   }
-  catch {
+  catch (error) {
     res.render('authors/new', {
       author :req.body.name,
-      errorMessage: "Error creating new author."
+      errorMessage: `Error creating new author: ${error}`
     })
   }
 })

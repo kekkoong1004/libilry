@@ -7,6 +7,21 @@
   <title>Document</title>
 </head>
 <body>
-  Homepage
+  <h1>Homepage</h1>
+  
+  
+  
+  <div>
+    <h2>Recently Added</h2>
+    <% books.forEach(book=> { %>
+      <div>
+        <h3>
+          <%= book.title %>
+        </h3>
+        <img height='150' src="<%= book.coverImagePath %> " alt="">
+  
+      </div>
+      <% }) %>
+  </div>
 </body>
 </html>

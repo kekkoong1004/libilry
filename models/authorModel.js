@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
-const authorSchema = schema({
+const authorSchema = new schema({
   name : {
-    type: String,
+    type: [String, "Enter a new name"],
     required: true,
-    unique: true
+    unique: [true, "Name already existed"]
   }
 }, {
   timestamps: true
