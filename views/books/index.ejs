@@ -17,17 +17,17 @@
   <button type="submit">Search</button>
 </form>
 <div>
-  <% books.forEach(book=> { %>
+  <% for(let i=0; i<books.length; i++) { %>
     <div>
       <h3>
-        <%= book.title %>
+        <%= books[i].title %>
       </h3>
-      <img height='150' src="<%= book.coverImagePath %> " alt="">
+  <img height="150" src="data:<%= books[i].imgMimeType %>;base64,<%= base64Files[i] %>" alt="img">
 
     </div>
-    <% }) %>
+    <% } %>
 </div>
 
-<form action="/authors/del" method="POST">
+<form action="/books/del" method="POST">
   <button type='submit'>Delete All</button>
 </form>

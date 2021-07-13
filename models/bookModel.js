@@ -16,6 +16,10 @@ const bookSchema = new schema({
     type: String,
     required: true
   },
+  imgMimeType: {
+    type: String,
+    required: true
+  },
   pageCount: {
     type: Number,
     required: true
