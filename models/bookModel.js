@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 const imgBasePath = 'uploads/bookCoverImg'
 const path = require('path')
+const {downloadImage} = require('../s3')
 
 const bookSchema = new schema({
   title: {
@@ -35,11 +36,6 @@ const bookSchema = new schema({
   }
 }, { timestamps: true })
 
-bookSchema.virtual('coverImagePath').get(function () {
-  if (this.coverImg != null) {
-    return path.join('/', imgBasePath, this.coverImg)
-  }
-})
 
 module.exports = mongoose.model('Book', bookSchema)
 module.exports.imgBasePath = imgBasePath

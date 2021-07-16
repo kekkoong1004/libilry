@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
+const Book = require('./bookModel')
 
 const authorSchema = new schema({
   name : {
@@ -10,5 +11,8 @@ const authorSchema = new schema({
 }, {
   timestamps: true
 })
+
+
+
 
 module.exports = mongoose.model('Author', authorSchema)

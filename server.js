@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 // Importing middleware
 const express = require('express')
 const path = require('path')
+const methodOverride = require('method-override')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
@@ -16,7 +17,7 @@ app.use(expressLayouts)
 app.set('layout', 'layouts/layout')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: false}))
-
+app.use(methodOverride('_method'))
 
 // Database config
 const mongoose = require('mongoose')

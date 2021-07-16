@@ -1,0 +1,22 @@
+<h2>Author</h2>
+<h3>
+  <%= author.name %>
+</h3>
+<a href="/authors/<%= author.id %>/edit">Edit</a>
+<br>
+<br>
+<%- include('../partials/deleteForm.ejs', { url: `/authors/${author.id}`}) %>
+
+  <div>
+    <h3>Books written by <%= author.name %> :</h3>
+    <% books.forEach((book, index)=> { const base64=base64Files[index] %>
+      <div>
+        <h4>
+          <%= book.title %>
+        </h4>
+        <img height="150" src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="">
+      </div>
+
+      <% }) %>
+
+  </div>

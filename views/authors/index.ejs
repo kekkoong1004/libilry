@@ -8,9 +8,11 @@
   <button type="submit">Search</button>
 </form>
 <ul>
-  <% authors.forEach(element=> { %>
+  <% authors.forEach(author=> { %>
     <li>
-      <%= element.name %>
+      <a href="/authors/<%= author.id %>">
+        <%= author.name %>
+      </a>
     </li>
     <% }) %>
 </ul>

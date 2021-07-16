@@ -31,6 +31,7 @@ const downloadImage = (key) => {
     Bucket: bucketName,
     Key: key
   }
+
   return s3.getObject(params).promise()
 }
 
