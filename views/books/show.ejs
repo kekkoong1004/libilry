@@ -1,0 +1,29 @@
+<div>
+  <h2>
+    Title: <%= book.title %>
+  </h2>
+  <img height="150" src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="img">
+  <h4>
+    Author: <a href="/authors/<%= book.author.id %>">
+      <%= book.author.name %>
+    </a>
+  </h4>
+  <h4>
+    Published Date: <%= book.publishDate.toDateString() %>
+  </h4>
+  <h4>
+    Page Count: <%= book.pageCount %>
+  </h4>
+  <h4>
+    Description: <%= book.description %>
+  </h4>
+</div>
+
+<div>
+  <a href="/books/<%= book.id %>/edit">Edit book</a>
+  <br>
+  <br>
+  <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
+    <button type='submit'>Delete Book</button>
+  </form>
+</div>

@@ -9,19 +9,18 @@
 <body>
   <h1>Homepage</h1>
   
-
-  
   <div>
     <h2>Recently Added</h2>
-    <% for(let i=0; i<books.length; i++) { %>
+    <% books.forEach((book, index)=> { %>
       <div>
         <h3>
-          <%= books[i].title %>
+          <%= book.title %>
         </h3>
-        <img height='150' src="data:<%= books[i].imgMimeType %>;base64,<%= base64Files[i] %>" alt="image">
-  
+        <a href="/books/<%= book.id %>">
+          <img height='150' src="data:<%= book.imgMimeType %>;base64,<%= base64Files[index] %>" alt="image">
+        </a>
       </div>
-      <% } %>
+      <% }) %>
   </div>
 </body>
 </html>

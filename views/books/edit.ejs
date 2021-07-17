@@ -1,6 +1,6 @@
-<h2>New Book</h2>
+<h2>Edit Book</h2>
 
-<form action="/books/" method="POST" enctype="multipart/form-data">
+<form action="/books/<%= book.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
   <!-- Title field -->
   <label for="title">Title</label>
   <input type="text" name="title" value="<%= book.title %>">
@@ -10,7 +10,7 @@
   <select name="author">
     <% authors.forEach(author=> { %>
       <% if (author.id==book.author) { %>
-        <option selected label="<% author.name %>" value="<% author.id %>"></option>
+        <option selected label="<%= author.name %>" value="<% author.id %>"></option>
         <% } else { %>
           <option label="<%= author.name %>" value="<%= author.id %>"></option>
           <% } %>
@@ -20,11 +20,11 @@
   <!-- Published date field -->
   <label for="publishDate">Publish Date</label>
   <input type="date" name="publishDate"
-    value="<%= book.publishDate==null? '' : book.publishDate.toISOString().split('T')[0] %>">
+    value="<%= book.publishDate==null? '': book.publishDate.toISOString().split('T')[0] %>">
   <br>
   <!-- Page field -->
   <label for="pageCount">Page Count</label>
-  <input type="number" name="pageCount" min="1" value="<%= book.pageCount %> ">
+  <input type="number" name="pageCount" min="1" value="<%= book.pageCount %>">
   <br>
   <!-- Cover Image field -->
   <label>Cover Image</label>
@@ -33,6 +33,6 @@
   <!-- Description field -->
   <label for="description">Description</label>
   <textarea name="description" cols="20" rows="5"><%= book.description %> </textarea>
-  <button type="submit">Submit</button>
+  <button type="submit">Update</button>
   <a href="/authors">Cancel</a>
 </form>

@@ -13,9 +13,9 @@ const upload = multer({
     callback(null, imgMimeTypes.includes(file.mimetype))
   }
 })
-const { uploadImage, downloadImage, deleteImage }  = require('../../../s3')
+const { uploadImage, downloadImage, deleteImage } = require('../../../s3')
 
-
+// Get all books
 router.get('/', async (req, res) => {
   let query = Book.find()
   if (req.query.title != null && req.query.title != "") {
@@ -52,6 +52,20 @@ router.get('/new', async (req, res) => {
   renderNewPage(res, new Book())
 })
 
+// Get single book
+router.get('/:id', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate('author')
+    const image = book.coverImg
+    const fileDownloaded = await downloadImage(image)
+    const base64 = await encode(fileDownloaded.Body)
+    res.render('books/show', { book:book, base64: base64 })
+  } catch (err) {
+    console.log(err)
+    res.redirect('/books')
+  }
+})
+
 // Create a new book
 router.post('/', upload.single('coverImg'), async (req, res) => {
   const fileName = req.file != null ? req.file.filename : null
@@ -72,6 +86,66 @@ router.post('/', upload.single('coverImg'), async (req, res) => {
   } catch (err) {
     console.log(err)
     renderNewPage(res, book, true)
+  }
+})
+
+// Get to edit page
+router.get('/:id/edit', async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id)
+    const authors = await Author.find()
+    res.render('books/edit',
+      {
+        book: book,
+        authors: authors
+      })
+  } catch (err) {
+    console.log(err)
+    res.redirect('/books')
+  }
+})
+
+// Update a book
+router.put('/:id', upload.single('coverImg'), async (req, res) => {
+  const fileName = req.file != null ? req.file.filename : null
+  try {
+    let book = await Book.findById(req.params.id)
+    book.title = req.body.title
+    book.author = req.body.author
+    book.publishDate = new Date(req.body.publishDate)
+    book.pageCount =  req.body.pageCount
+    book.description = req.body.description
+    if (fileName !== null) {
+      book.cover = fileName
+      book.imgMimeType = req.file.mimetype
+    }
+    book = await book.save()
+    if (fileName !== null) {
+      const newUpload = await uploadImage(req.file)
+    deleteImgFile(book.coverImg)
+    }
+    res.redirect(`/books/${book.id}`)
+  } catch (err) {
+    console.log(err)
+    renderNewPage(res, book, true)
+  }
+})
+
+router.delete('/id', async (req, res) => {
+  let book
+  try {
+    book = await book.findById(req.params.id)
+    await book.remove()
+    res.redirect('/books')
+  } catch {
+    if (book != null) {
+      res.render(`books/show`, {
+        book: book,
+        errorMessage: 'Could not remove book.'
+      })
+    } else {
+      res.redirect(`/books`)
+    }
   }
 })
 
@@ -117,7 +191,7 @@ function deleteImgFile(fileName) {
   })
 }
 
-async function encode(data) {
+function encode(data) {
   let buf = Buffer.from(data)
   let base64 = buf.toString('base64')
   return base64
