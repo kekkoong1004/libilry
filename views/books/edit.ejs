@@ -1,4 +1,4 @@
-<h2>Edit Book</h2>
+<h2 class="page-header">Edit Book</h2>
 
 <form action="/books/<%= book.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
   <!-- Title field -->
@@ -33,6 +33,6 @@
   <!-- Description field -->
   <label for="description">Description</label>
   <textarea name="description" cols="20" rows="5"><%= book.description %> </textarea>
-  <button type="submit">Update</button>
-  <a href="/authors">Cancel</a>
+  <button class="btn btn-primary" type="submit">Update</button>
+  <a class="btn btn-primary" href="/authors">Cancel</a>
 </form>

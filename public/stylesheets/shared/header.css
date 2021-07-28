@@ -1,0 +1,48 @@
+:root {
+  --nav-title-font-size: 2.5rem;
+  --nav-title-font-weight: bolder;
+  --nav--title-font-color-hover: rgb(244, 247, 241);
+}
+
+
+.header-title {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-size: var(--nav-title-font-size);
+  font-weight: var(--nav-title-font-weight);
+}
+
+.header-title:hover {
+  color: var(--nav--title-font-color-hover);
+  font-size: 2.6rem;
+}
+
+.header-nav {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5rem;
+  padding:.5rem 0;
+}
+
+.header-nav ul {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.header-link {
+  text-decoration: none;
+  padding: 0 .5rem;
+  font-size: larger;
+  font-weight: bolder;
+  color: var(--color-text-light);
+}
+
+.header-link:hover {
+  color: white;
+  font-size: xx-large;
+}

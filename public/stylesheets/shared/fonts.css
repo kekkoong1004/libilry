@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'Letters for Learners Dots';
+    src: url('/fonts/LettersforLearnersDots.woff2') format('woff2'),
+        url('/fonts/LettersforLearnersDots.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Letters for Learners Lined';
+    src: url('/fonts/LettersforLearnersLined.woff2') format('woff2'),
+        url('/fonts/LettersforLearnersLined.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Letters for Learners';
+    src: url('/fonts/LettersforLearners.woff2') format('woff2'),
+        url('/fonts/LettersforLearners.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Letters for Learners Lined Dots';
+    src: url('/fonts/LettersforLearnersLinedDots.woff2') format('woff2'),
+        url('/fonts/LettersforLearnersLinedDots.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

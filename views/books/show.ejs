@@ -1,5 +1,5 @@
 <div>
-  <h2>
+  <h2 class="page-header">
     Title: <%= book.title %>
   </h2>
   <img height="150" src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="img">
@@ -19,11 +19,9 @@
   </h4>
 </div>
 
-<div>
-  <a href="/books/<%= book.id %>/edit">Edit book</a>
-  <br>
-  <br>
+<div class="button-container">
+  <a class="btn btn-primary" href="/books/<%= book.id %>/edit">Edit book</a>
   <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
-    <button type='submit'>Delete Book</button>
+    <button class="btn btn-danger" type='submit'>Delete Book</button>
   </form>
 </div>

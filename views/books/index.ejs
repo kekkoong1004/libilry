@@ -1,4 +1,4 @@
-<h1>All books</h1>
+<h1 class="page-header">All books</h1>
 <br>
 
 <h2>Search book</h2>
@@ -14,7 +14,7 @@
   <label for="publishAfter">Published After</label>
   <input type="date" name="publishAfter" value="<%= searchOptions.publishAfter %>">
   <br>
-  <button type="submit">Search</button>
+  <button class="btn btn-primary" type="submit">Search</button>
 </form>
 <div>
   <% books.forEach((book, index)=> { %>
@@ -31,5 +31,5 @@
 </div>
 
 <form action="/books/del" method="POST">
-  <button type='submit'>Delete All</button>
+  <button class="btn btn-danger" type='submit'>Delete All</button>
 </form>

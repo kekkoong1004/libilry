@@ -1,0 +1,36 @@
+@import 'shared/fonts.css';
+@import 'shared/variables.css';
+@import 'shared/header.css';
+@import 'shared/button.css';
+
+:root {
+  font-family: 'Letters for Learners', monospace;
+  font-size: larger;
+  color: var(--color-text-light);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(to right, var(--color-background-dark), var(--color-background-light));
+  margin: 0;
+}
+
+.container {
+  max-width: 95%;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+.inner-container {
+  margin: 0 2rem;
+}
+
+.page-header {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+

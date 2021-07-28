@@ -1,0 +1,45 @@
+:root {
+  --color-btn-border: black;
+  --color-btn-primary-background: hsl(203, 58%, 73%);
+  --color-btn-primary-background-hover: hsl(203, 55%, 40%);
+  --color-btn-danger-background: hsl(28, 70%, 45%);
+  --color-btn-danger-background-hover: hsl(358, 80%, 53%);
+}
+
+.btn {
+  border: 1px solid var(--color-btn-border);
+  border-radius: .5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'Letters for Learners', monospace;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-btn-primary-background);
+  color: black;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-btn-primary-background-hover);
+  color:blanchedalmond;
+}
+
+.btn-danger {
+  background-color: var(--color-btn-danger-background);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-btn-danger-background-hover);
+  color: beige;
+}
+
+.button-container {
+  display: flex;
+}
+
+.button-container > * {
+  margin-right: 1rem;
+}
