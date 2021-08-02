@@ -15,7 +15,8 @@ router.get('/', async (req, res) => {
       base64Files.push(fileEncoded)
     }
     res.render('index', {books: books, base64Files: base64Files})
-  } catch {
+  } catch (err) {
+    console.log(err)
     books = []
     res.redirect('/')
   }

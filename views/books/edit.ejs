@@ -1,38 +1,91 @@
 <h2 class="page-header">Edit Book</h2>
-
 <form action="/books/<%= book.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-  <!-- Title field -->
-  <label for="title">Title</label>
-  <input type="text" name="title" value="<%= book.title %>">
-  <br>
-  <!-- Author field -->
-  <label for="author">Author</label>
-  <select name="author">
-    <% authors.forEach(author=> { %>
-      <% if (author.id==book.author) { %>
-        <option selected label="<%= author.name %>" value="<% author.id %>"></option>
-        <% } else { %>
-          <option label="<%= author.name %>" value="<%= author.id %>"></option>
+
+  <div class="form-row">
+
+    <!-- Book title -->
+    <div class="form-item">
+      <label class="item-name" for="title">Title</label>
+      <input type="text" name="title" value="<%= book.title %>">
+    </div>
+
+    <!-- Book Author -->
+    <div class="form-item">
+      <label class="item-name">Author</label>
+      <select name="author">
+        <% authors.forEach(author=> { %>
+          <% if (author.id==book.author) { %>
+            <option selected label="<%= author.name %>" value="<%= author.id %>"></option>
+          <% } else { %>
+            <option label="<%= author.name %>" value="<%= author.id %>"></option>
           <% } %>
-            <% }) %>
-  </select>
-  <br>
-  <!-- Published date field -->
-  <label for="publishDate">Publish Date</label>
-  <input type="date" name="publishDate"
-    value="<%= book.publishDate==null? '': book.publishDate.toISOString().split('T')[0] %>">
-  <br>
-  <!-- Page field -->
-  <label for="pageCount">Page Count</label>
-  <input type="number" name="pageCount" min="1" value="<%= book.pageCount %>">
-  <br>
-  <!-- Cover Image field -->
-  <label>Cover Image</label>
-  <input type="file" name="coverImg">
-  <br>
-  <!-- Description field -->
-  <label for="description">Description</label>
-  <textarea name="description" cols="20" rows="5"><%= book.description %> </textarea>
-  <button class="btn btn-primary" type="submit">Update</button>
-  <a class="btn btn-primary" href="/authors">Cancel</a>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-row">
+
+    <!-- Book Publish Date -->
+    <div class="form-item">
+      <label class="item-name" for="publishDate">Publish Date</label>
+      <input type="date" name="publishDate"
+        value="<%= book.publishDate==null? '' : book.publishDate.toISOString().split('T')[0] %>">
+    </div>
+
+    <!-- Book Page Count -->
+    <div class="form-item">
+      <label class="item-name" for="pageCount">Page Count</label>
+      <input type="number" name="pageCount" min="1" value="<%= book.pageCount %>">
+    </div>
+  </div>
+    
+  <div class="form-row">
+
+    <!-- Book Cover Image -->
+    <% if(book.cover !== null) { %> 
+      <div class="form-item">
+        <label class="item-name">Current Image</label>
+        <div class="current-image" >
+          <img src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="img">
+        </div>
+      </div>
+    <% }  else { %> 
+      <div class="form-item">
+        <label class="item-name">Current Image</label>
+        <div class="current-image" >
+          <img src="" alt="">
+          <span>No current image</span>
+        </div>
+      </div>
+    <% } %> 
+
+    <div class="form-item">
+      <label class="item-name">New Image</label>
+      <input type="file" name="coverImg" id=imageFile accept="image/*">
+      <div class="image-preview" id="imagePreview">
+        <label for="imageFile">
+          <span class="image-preview-text">New Image (optional)</span>
+          <img src="" class="image-preview-image">
+        </label>
+      </div>
+    </div>
+
+    
+    <!-- Book Description -->
+    <div class="form-item">
+      <label class="item-name" for="description">Description</label>
+      <textarea name="description" cols="20" rows="5"><%= book.description %> </textarea>
+      
+      <!-- buttons section -->
+      <div class="button-section">
+        <button class="btn btn-primary" type="submit">Update</button>
+        <a class="btn btn-primary" href="/authors">Cancel</a>
+      </div>
+    </div>
+
+    
+  </div>
+  
+  
 </form>

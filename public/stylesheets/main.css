@@ -2,11 +2,14 @@
 @import 'shared/variables.css';
 @import 'shared/header.css';
 @import 'shared/button.css';
+@import 'shared/form2.css';
 
 :root {
   font-family: 'Letters for Learners', monospace;
   font-size: larger;
   color: var(--color-text-light);
+  --color-text-lighter: hsl(200, 100%, 60%);
+  --color-text-lighter-hover:(200, 80%, 78%);
 }
 
 *, *::before, *::after {
@@ -33,4 +36,84 @@ body {
   font-weight: bold;
 }
 
+/* All books page */
+.books-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
+.book-item {
+  margin-right: 3rem;
+}
+
+/* Single book page */
+.book-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 25rem;
+  margin-top: 3rem;
+}
+
+.book-container img {
+  max-width: 12rem;
+}
+
+.book-info {
+  margin-left: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.book-info h4 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.book-info h4:first-child a{
+  text-decoration: none;
+  color: var(--color-text-lighter);
+}
+
+.book-info h4:first-child a:hover{
+  color: var(--color-text-lighter-hover);
+}
+
+/* All authors page */
+.author-list {
+  list-style:none;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.author-list li {
+  margin: .5rem;
+}
+
+.author-list li:first-child {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.author-list li a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: bolder;
+  color: var(--color-text-lighter);
+}
+
+.author-list li a:hover {
+  font-size: 1.7rem;
+  color: var(--color-text-lighter-hover);
+}
+
+/* Edit single author page */
+.page-second-title {
+  font-size: 1.5rem;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}

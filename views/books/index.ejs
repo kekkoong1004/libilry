@@ -4,21 +4,37 @@
 <h2>Search book</h2>
 <form action="/books" method="GET">
   <!-- Book title search -->
-  <label for="title">Title</label>
-  <input type="text" name="title"
-    value="<%= searchOptions.title != null && searchOptions.title != "" ? searchOptions.title: null %>">
-  <br>
-  <label for="publishBefore">Published Before</label>
-  <input type="date" name="publishBefore" value="<%= searchOptions.publishBefore %>">
-  <br>
-  <label for="publishAfter">Published After</label>
-  <input type="date" name="publishAfter" value="<%= searchOptions.publishAfter %>">
-  <br>
-  <button class="btn btn-primary" type="submit">Search</button>
+  <div class="form-row">
+    <div class="form-item">
+      <label for="title">Title</label>
+      <input type="text" name="title"
+        value="<%= searchOptions.title != null && searchOptions.title != "" ? searchOptions.title: null %>">
+    </div>
+  </div>
+  
+  <!-- Book published date search (before) -->
+  <div class="form-row">
+    <div class="form-item">
+      <label for="publishBefore">Published Before</label>
+      <input type="date" name="publishBefore" value="<%= searchOptions.publishBefore %>">
+    </div>
+
+    <!-- Book published date search (after) -->
+    <div class="form-item">
+      <label for="publishAfter">Published After</label>
+      <input type="date" name="publishAfter" value="<%= searchOptions.publishAfter %>">
+    </div>
+  </div>
+
+  <!-- buttons section -->
+  <div class="button-section">
+    <button class="btn btn-primary" type="submit">Search</button>
+  </div>
 </form>
-<div>
+
+<div class="books-section">
   <% books.forEach((book, index)=> { %>
-    <div>
+    <div class="book-item">
     
       <h3>
         <%= book.title %>
@@ -31,5 +47,7 @@
 </div>
 
 <form action="/books/del" method="POST">
-  <button class="btn btn-danger" type='submit'>Delete All</button>
+  <div class="button-section">
+    <button class="btn btn-danger" type='submit'>Delete All</button>
+  </div>
 </form>

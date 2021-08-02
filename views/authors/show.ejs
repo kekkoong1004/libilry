@@ -1,22 +1,20 @@
-<h2 class="page-header">Author</h2>
-<h3>
-  <%= author.name %>
-</h3>
-<a class="btn btn-primary" href="/authors/<%= author.id %>/edit">Edit</a>
-<br>
-<br>
-<%- include('../partials/deleteForm.ejs', { url: `/authors/${author.id}`}) %>
+<h2 class="page-header">Author : <span><%= author.name %></span></h2>
 
-  <div>
-    <h3>Books written by <%= author.name %> :</h3>
+<div class="button-section">
+  <a class="btn btn-primary" href="/authors/<%= author.id %>/edit">Edit</a>
+  <%- include('../partials/deleteForm.ejs', { url: `/authors/${author.id}`}) %>
+</div>
+
+<h3 class="page-second-title">Books written by <%= author.name %> :</h3>
+  <div class="book-container flex-wrap">
     <% books.forEach((book, index)=> { const base64=base64Files[index] %>
-      <div>
+      <div class="book-info">
         <h4>
           <%= book.title %>
         </h4>
-        <img height="150" src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="">
+        <a href="/books/<%= book.id %>">
+        <img src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt=""></a>
       </div>
-
-      <% }) %>
+    <% }) %>
 
   </div>

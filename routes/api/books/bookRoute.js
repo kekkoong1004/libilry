@@ -79,11 +79,17 @@ router.post('/', upload.single('coverImg'), async (req, res) => {
     imgMimeType : req.file.mimetype
   })
   try {
-    let newBook = await book.save()
-    let newUpload = await uploadImage(req.file)
+    const newBook = await book.save();
+    const fileUploaded = await uploadImage(req.file)
     deleteImgFile(book.coverImg)
     res.redirect('/books')
   } catch (err) {
+    if (newBook) {
+      await newBook.remove()
+    }
+    if (fileUploaded) {
+      await deleteImage(fileName)
+    }
     console.log(err)
     renderNewPage(res, book, true)
   }
@@ -94,14 +100,18 @@ router.get('/:id/edit', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
     const authors = await Author.find()
+    const image = book.coverImg
+    const fileDownloaded = await downloadImage(image)
+    const base64 = await encode(fileDownloaded.Body)
     res.render('books/edit',
       {
         book: book,
-        authors: authors
+        authors: authors,
+        base64: base64
       })
   } catch (err) {
     console.log(err)
-    res.redirect('/books')
+    res.redirect('/books/')
   }
 })
 
@@ -122,7 +132,7 @@ router.put('/:id', upload.single('coverImg'), async (req, res) => {
     book = await book.save()
     if (fileName !== null) {
       const newUpload = await uploadImage(req.file)
-    deleteImgFile(book.coverImg)
+      deleteImgFile(book.coverImg)
     }
     res.redirect(`/books/${book.id}`)
   } catch (err) {
@@ -131,19 +141,23 @@ router.put('/:id', upload.single('coverImg'), async (req, res) => {
   }
 })
 
-router.delete('/id', async (req, res) => {
+// Delete single book
+router.delete('/:id', async (req, res) => {
   let book
   try {
-    book = await book.findById(req.params.id)
-    await book.remove()
+    book = await Book.findById(req.params.id)
+    const imageFile = book.coverImg
+    const bookRemoved = await book.remove()
+    const imageDeleted = await deleteImage(imageFile)
     res.redirect('/books')
-  } catch {
+  } catch (err) {
     if (book != null) {
       res.render(`books/show`, {
         book: book,
         errorMessage: 'Could not remove book.'
       })
     } else {
+      console.log(err)
       res.redirect(`/books`)
     }
   }
@@ -162,10 +176,11 @@ router.post('/del', async (req, res) => {
       let imageDelete = await deleteImage(bookKeys[i])
       imagesDeleted.push(imageDelete)
     }
-    res.redirect('/books/')
     const deleteDone = await Book.deleteMany()
+    res.redirect('/books/')
   } catch (err) {
     console.log(err)
+    res.redirect('/')
   }
 })
 

@@ -1,13 +1,20 @@
-<h1 class="page-header">All authors</h1>
+<h1 class="page-header">All Authors</h1>
 <br>
 
 <h2>Search Author</h2>
 <form action="/authors" method="GET">
-  <label for="name">Name</label>
-  <input type="text" name="name" value="<%= searchOptions.name %>">
-  <button type="submit">Search</button>
+  <div class="form-row">
+    <div class="form-item">
+      <label for="name">Name</label>
+      <input type="text" name="name" value="<%= searchOptions.name %>">
+    </div>
+  </div>
+  <div class="button-section">
+    <button class="btn btn-primary" type="submit">Search</button>
+  </div>
 </form>
-<ul>
+
+<ul class="author-list">
   <% authors.forEach(author=> { %>
     <li>
       <a href="/authors/<%= author.id %>">
@@ -18,5 +25,7 @@
 </ul>
 
 <form action="/authors/del" method="POST">
-  <button class="btn btn-danger" type='submit'>Delete All</button>
+  <div class="button-section">
+    <button class="btn btn-danger" type='submit'>Delete All</button>
+  </div>
 </form>
