@@ -109,22 +109,20 @@ router.put('/:id', async (req, res) => {
   }
 })
 
+// Delete a single author
 router.delete('/:id', async (req, res) => {
   let author
   try {
     author = await Author.findById(req.params.id)
     const books = await Book.find({ author: req.params.id })
     if (books.length > 0) {
-      throw new Error("Unable to delete this author, there are still his/her book remains.")
+      throw error("Unable to delete author with book written.")
+    } else {
+      await author.remove()
     }
-    await author.remove()
     res.redirect('/authors/')
   } catch (err) {
-    res.render('authors/show',
-      {
-        errorMessage: err,
-        author: author
-      })
+    res.redirect(`/authors/${author.id}`)
   }
 })
 

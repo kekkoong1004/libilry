@@ -8,19 +8,10 @@
 </head>
 <body>
   <h1 class="page-header">Homepage</h1>
-  
+  <br>
   <div>
-    <h3>Recently Added</h3>
-    <% books.forEach((book, index)=> { %>
-      <div>
-        <h3>
-          <%= book.title %>
-        </h3>
-        <a href="/books/<%= book.id %>">
-          <img height='150' src="data:<%= book.imgMimeType %>;base64,<%= base64Files[index] %>" alt="image">
-        </a>
-      </div>
-      <% }) %>
+    <h3 class="homepage-title">Recently Added</h3>
+    <%- include('./partials/_books_field.ejs') %> 
   </div>
 </body>
 </html>

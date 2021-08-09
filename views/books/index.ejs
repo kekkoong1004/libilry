@@ -32,19 +32,8 @@
   </div>
 </form>
 
-<div class="books-section">
-  <% books.forEach((book, index)=> { %>
-    <div class="book-item">
-    
-      <h3>
-        <%= book.title %>
-      </h3>
-      <a href="/books/<%= book.id %>">
-        <img height="150" src="data:<%= book.imgMimeType %>;base64,<%= base64Files[index] %>" alt="img">
-      </a>
-    </div>
-    <% }) %>
-</div>
+<!-- Display books -->
+<%- include('../partials/_books_field.ejs')  %> 
 
 <form action="/books/del" method="POST">
   <div class="button-section">

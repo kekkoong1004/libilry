@@ -6,15 +6,6 @@
 </div>
 
 <h3 class="page-second-title">Books written by <%= author.name %> :</h3>
-  <div class="book-container flex-wrap">
-    <% books.forEach((book, index)=> { const base64=base64Files[index] %>
-      <div class="book-info">
-        <h4>
-          <%= book.title %>
-        </h4>
-        <a href="/books/<%= book.id %>">
-        <img src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt=""></a>
-      </div>
-    <% }) %>
+  <%- include('../partials/_books_field.ejs') %> 
 
   </div>

@@ -3,6 +3,7 @@
 @import 'shared/header.css';
 @import 'shared/button.css';
 @import 'shared/form2.css';
+@import 'shared/books.css';
 
 :root {
   font-family: 'Letters for Learners', monospace;
@@ -36,17 +37,11 @@ body {
   font-weight: bold;
 }
 
-/* All books page */
-.books-section {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+/* Home page small title */
+.homepage-title {
+  text-align: center;
 }
 
-.book-item {
-  margin-right: 3rem;
-}
 
 /* Single book page */
 .book-container {

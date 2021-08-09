@@ -1,19 +1,25 @@
 <!-- Book info -->
 <h2 class="page-header">Book Title : <%= book.title %></h2>
 <div class="book-container">
-  <img src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="img">
-  <div class="book-info">
-    <h4>Author: <a href="/authors/<%= book.author.id %>"> <%= book.author.name %></a></h4>
-    <h4>Published Date: <%= book.publishDate.toDateString() %></h4>
-    <h4>Page Count: <%= book.pageCount %></h4>
-    <h4>Description: <%= book.description %></h4>
+  <div>
+    <img src="data:<%= book.imgMimeType %>;base64,<%= base64 %>" alt="img">
+    <!-- button section -->
+    <div class="book-show-buttons">
+      <a class="btn btn-primary" href="/books/<%= book.id %>/edit">Edit book</a>
+      <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
+        <button class="btn btn-danger" type='submit'>Delete Book</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- button section -->
-<div class="button-section">
-  <a class="btn btn-primary" href="/books/<%= book.id %>/edit">Edit book</a>
-  <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
-    <button class="btn btn-danger" type='submit'>Delete Book</button>
-  </form>
+  <div class="book-info">
+    <div>Author: </div>
+    <div><a href="/authors/<%= book.author.id %>"> <%= book.author.name %></a></div>
+    <div>Published Date: </div>
+    <div><%= book.publishDate.toDateString() %></div>
+    <div>Page Count: </div>
+    <div><%= book.pageCount %></div>
+    <div>Description</div>
+    <div><%= book.description %></div>
+  </div>
 </div>

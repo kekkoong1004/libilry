@@ -1,0 +1,10 @@
+<div class="books-section">
+  <% books.forEach((book, index)=> { %>
+    <div class="book-item">
+      <h3><%= book.title %></h3>
+      <a href="/books/<%= book.id %>">
+        <img src="data:<%= book.imgMimeType %>;base64,<%= base64Files[index] %>" alt="img">
+      </a>
+    </div>
+    <% }) %>
+</div>
