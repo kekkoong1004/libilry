@@ -6,4 +6,19 @@
     <li><a class="header-link" href="/books">All books</a></li>
     <li><a class="header-link" href="/books/new">Add book</a></li>
   </ul>
+
+  <% if (typeof user != 'undefined') { %> 
+    <ul>
+      <li><a class="header-link" href="/users/login">My profile</a></li>
+      <li><a class="header-link" href="/users/logout">Logout</a></li>
+    </ul>
+  <% } else { %>
+    <ul>
+      <li><a class="header-link" href="/users/login">Sign In</a></li>
+      <li><a class="header-link" href="/users/new">Sign Up</a></li>
+    </ul>
+  <% } %> 
+
+  
+
 </nav>

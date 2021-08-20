@@ -11,6 +11,9 @@
 <body>
   <div class="container">
     <%- include('../partials/header.ejs') %>
+    <% if (typeof user != 'undefined' ) { %>
+      <h3>Welcome <%= user.username %> </h3>
+    <% } %> 
     <div class="inner-contianer">
       <%- include('../partials/errorMessage.ejs') %>
       <%-body%>

@@ -1,14 +1,16 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+
 // Importing middleware
 const express = require('express')
+const app = express()
 const path = require('path')
 const methodOverride = require('method-override')
-const app = express()
 const expressLayouts = require('express-ejs-layouts')
-const bodyParser = require('body-parser')
-
+const passport = require('passport')
+const session = require("express-session")
+const flash = require('express-flash')
 
 // Middleware settings
 app.set('view engine', 'ejs')
@@ -16,8 +18,18 @@ app.set('views', path.join(__dirname, '/views'))
 app.use(expressLayouts)
 app.set('layout', 'layouts/layout')
 app.use(express.static('public'))
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
+app.use(session({
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(methodOverride('_method'))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
+require('./passport-configure')()
 
 // Database config
 const mongoose = require('mongoose')
@@ -30,10 +42,12 @@ db.once('open', () => console.log("Connected to mongoose"))
 const indexRouter = require('./routes/api/index')
 const authorsRouter = require('./routes/api/authors/authors')
 const bookRouter = require('./routes/api/books/bookRoute')
+const userRouter = require('./routes/api/users/user')
 
 app.use('/', indexRouter)
 app.use('/authors', authorsRouter)
 app.use('/books', bookRouter)
+app.use('/users', userRouter)
 
 // App listen to port
 app.listen(process.env.PORT || 5000)
