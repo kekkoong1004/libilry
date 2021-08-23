@@ -5,11 +5,13 @@ const User = require('../../../models/userModel')
 const { render } = require('ejs')
 const passport = require('passport')
 const connectEnsureLogin  = require('connect-ensure-login').ensureLoggedIn
+const ensureLoggedIn = require('../../../ensureLoggedIn')
 
 // Sign Up form
 router.get('/new', (req, res) => {
   res.render('users/new')
 })
+
 
 
 // Sign up for member
@@ -77,9 +79,14 @@ router.post('/login', passport.authenticate('local', {
 }))
 
 // Logout a user
-router.get('/logout', connectEnsureLogin, (req, res) => {
+router.get('/logout', ensureLoggedIn, (req, res) => {
   req.logout()
   return res.redirect('/')
+})
+
+// Show a user profile
+router.get('/show', ensureLoggedIn, (req, res) => {
+  res.render('users/show', {user: req.user})
 })
 
 

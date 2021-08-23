@@ -4,33 +4,35 @@ const router = express.Router()
 const Author = require('../../../models/authorModel')
 const Book = require('../../../models/bookModel')
 const { downloadImage } = require('../../../s3')
+const ensureLoggedIn = require('../../../ensureLoggedIn')
 
 // All Authors route
-router.get('/', async (req, res) => {0
+router.get('/', ensureLoggedIn, async (req, res) => {0
   let searchOptions = {}
   if (req.query.name != null && req.query.name != "") {
     searchOptions.name = new RegExp(req.query.name, 'i')
   }
   try {
     const authors = await Author.find(searchOptions)
-    res.render('authors/index', { authors: authors, searchOptions: req.query })
+    res.render('authors/index', { authors: authors, searchOptions: req.query, user: req.user })
   }
   catch (error) {
-    res.render('/', {errorMessage: error})
+    res.render('/', {errorMessage: error, user: req.user})
   }
 })
 
 // New author form
-router.get('/new', (req, res) => {
-  res.render('authors/new', {author: new Author()})
+router.get('/new', ensureLoggedIn, (req, res) => {
+  res.render('authors/new', {author: new Author(), user: req.user})
 })
 
 
 
 // Create new author
-router.post('/', async (req, res) => {
+router.post('/', ensureLoggedIn, async (req, res) => {
   const author = new Author({
-    name: req.body.name
+    name: req.body.name,
+    user: req.user
   })
   try {
     const newAuthor = await author.save()
@@ -39,13 +41,14 @@ router.post('/', async (req, res) => {
   catch (error) {
     res.render('authors/new', {
       author :req.body.name,
-      errorMessage: `Error creating new author: ${error}`
+      errorMessage: `Error creating new author: ${error}`,
+      user: req.user
     })
   }
 })
 
 // Delete all authors
-router.post('/del', async (req, res) => {
+router.post('/del', ensureLoggedIn, async (req, res) => {
   try { 
     let deleteDone = await Author.deleteMany()
     res.redirect('/')
@@ -56,7 +59,7 @@ router.post('/del', async (req, res) => {
 })
 
 // Show single author page
-router.get('/:id', async (req, res) => {
+router.get('/:id', ensureLoggedIn, async (req, res) => {
   try {
     const author = await Author.findById(req.params.id)
     const books = await Book.find({ author: author.id }).sort({ createdAt: 'DESC' }).limit(10)
@@ -67,7 +70,7 @@ router.get('/:id', async (req, res) => {
       let fileEncoded = await encode(imgDownload.Body)
       base64Files.push(fileEncoded)
     }
-    res.render('authors/show', {author: author, books:books, base64Files: base64Files})
+    res.render('authors/show', {author: author, books:books, base64Files: base64Files, user: req.user})
   }
   catch (err) {
     console.log(err)
@@ -76,11 +79,11 @@ router.get('/:id', async (req, res) => {
 })
 
 // Get the edit page
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', ensureLoggedIn, async (req, res) => {
   try {
     const author = await Author.findById(req.params.id)
     if (author !== null) {
-      res.render('authors/edit', { author: author })
+      res.render('authors/edit', { author: author, user: req.user })
     }
   } catch (err) {
     console.log(err)
@@ -89,7 +92,7 @@ router.get('/:id/edit', async (req, res) => {
   
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', ensureLoggedIn, async (req, res) => {
   let author
   try {
     author = await Author.findById(req.params.id)
@@ -110,13 +113,13 @@ router.put('/:id', async (req, res) => {
 })
 
 // Delete a single author
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', ensureLoggedIn, async (req, res) => {
   let author
   try {
     author = await Author.findById(req.params.id)
     const books = await Book.find({ author: req.params.id })
     if (books.length > 0) {
-      throw error("Unable to delete author with book written.")
+      req.flash("Unable to delete")
     } else {
       await author.remove()
     }

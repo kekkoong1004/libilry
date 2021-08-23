@@ -14,9 +14,10 @@ const upload = multer({
   }
 })
 const { uploadImage, downloadImage, deleteImage } = require('../../../s3')
+const ensureLoggedIn = require('../../../ensureLoggedIn')
 
 // Get all books
-router.get('/', async (req, res) => {
+router.get('/', ensureLoggedIn, async (req, res) => {
   let query = Book.find()
   if (req.query.title != null && req.query.title != "") {
     query = query.regex('title', new RegExp(req.query.title, 'i'))
@@ -38,7 +39,8 @@ router.get('/', async (req, res) => {
     const params = {
       books: books,
       searchOptions: req.query,
-      base64Files: base64Files
+      base64Files: base64Files,
+      user: req.user
     }
     res.render('books/index', params)
   } catch (err) {
@@ -48,18 +50,18 @@ router.get('/', async (req, res) => {
 })
 
 // new book form
-router.get('/new', async (req, res) => {
-  renderNewPage(res, new Book())
+router.get('/new', ensureLoggedIn, async (req, res) => {
+  renderNewPage(req, res, new Book())
 })
 
 // Get single book
-router.get('/:id', async (req, res) => {
+router.get('/:id', ensureLoggedIn, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate('author')
     const image = book.coverImg
     const fileDownloaded = await downloadImage(image)
     const base64 = await encode(fileDownloaded.Body)
-    res.render('books/show', { book:book, base64: base64 })
+    res.render('books/show', { book:book, base64: base64, user: req.user })
   } catch (err) {
     console.log(err)
     res.redirect('/books')
@@ -67,7 +69,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Create a new book
-router.post('/', upload.single('coverImg'), async (req, res) => {
+router.post('/', ensureLoggedIn, upload.single('coverImg'), async (req, res) => {
   const fileName = req.file != null ? req.file.filename : null
   const book = new Book({
     title: req.body.title,
@@ -91,12 +93,12 @@ router.post('/', upload.single('coverImg'), async (req, res) => {
       await deleteImage(fileName)
     }
     console.log(err)
-    renderNewPage(res, book, true)
+    renderNewPage(req, res, book, true)
   }
 })
 
 // Get to edit page
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', ensureLoggedIn, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
     const authors = await Author.find()
@@ -107,7 +109,8 @@ router.get('/:id/edit', async (req, res) => {
       {
         book: book,
         authors: authors,
-        base64: base64
+        base64: base64,
+        user: req.user
       })
   } catch (err) {
     console.log(err)
@@ -116,7 +119,7 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 // Update a book
-router.put('/:id', upload.single('coverImg'), async (req, res) => {
+router.put('/:id', ensureLoggedIn, upload.single('coverImg'), async (req, res) => {
   const fileName = req.file != null ? req.file.filename : null
   try {
     let book = await Book.findById(req.params.id)
@@ -137,12 +140,12 @@ router.put('/:id', upload.single('coverImg'), async (req, res) => {
     res.redirect(`/books/${book.id}`)
   } catch (err) {
     console.log(err)
-    renderNewPage(res, book, true)
+    renderNewPage(req, res, book, true)
   }
 })
 
 // Delete single book
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', ensureLoggedIn, async (req, res) => {
   let book
   try {
     book = await Book.findById(req.params.id)
@@ -154,7 +157,8 @@ router.delete('/:id', async (req, res) => {
     if (book != null) {
       res.render(`books/show`, {
         book: book,
-        errorMessage: 'Could not remove book.'
+        errorMessage: 'Could not remove book.',
+        user: req.user
       })
     } else {
       console.log(err)
@@ -164,7 +168,7 @@ router.delete('/:id', async (req, res) => {
 })
 
 // Delete all books collections
-router.post('/del', async (req, res) => {
+router.post('/del', ensureLoggedIn, async (req, res) => {
   try {
     const books = await Book.find()
     const bookKeys = []
@@ -185,12 +189,13 @@ router.post('/del', async (req, res) => {
 })
 
 // Functions
-async function renderNewPage(res, book, hasError=false) {
+async function renderNewPage(req, res, book, hasError=false) {
   try {
     const authors = await Author.find()
     params = {
       book: book,
-      authors: authors
+      authors: authors,
+      user: req.user
     }
     if (hasError) params.errorMessage = "Error rendering page."
     res.render('books/new', params)

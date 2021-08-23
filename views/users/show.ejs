@@ -1,0 +1,14 @@
+<h2 class="page-header"><span><%= user.username %> 's profile</span></h2>
+
+<div class="book-container">
+  <div class="book-info">
+    <div>Email address: </div>
+    <div><%= user.email %></div>
+    <div>Joined date: </div>
+    <div><%= user.createdAt.toDateString() %></div>
+  </div>
+</div>
+
+<div class="button-section">
+  <a class="btn btn-primary" href="/users/edit">Edit</a>
+</div>
